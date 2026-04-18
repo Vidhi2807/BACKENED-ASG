@@ -20,8 +20,24 @@ const createNote = async (req, res) => {
   }
 };
 
+////Create multiple notes
+const multipleNotes = async (req,res) =>{
+  try{
+      const notesData = req.body;
+      const createdNotes = await Note.insertMany(notesData);
+      res.status(201).json({
+        success: true,
+          msg: 'Multiple notes created successfully.',
+          notes: createdNotes
+      }); 
+  }
+  catch(err){
+      res.status(500).json({ msg: 'Server error.', error: err.message });
+  }
+}
 
 
 
 
-module.exports = { createNote};
+
+module.exports = { createNote , multipleNotes };
