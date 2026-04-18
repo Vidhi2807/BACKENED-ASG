@@ -109,5 +109,24 @@ const UpdateFieldId = async (req,res) =>{
   }
 }
 
+////Delete note by id
+const deleteById = async (req,res) =>{
+  try{
+    const noteId = req.params.id;
+    const deletedNote = await Note.findByIdAndDelete(noteId);
+    if(!deletedNote){
+      return res.status(404).json({msg:"Note Not found"});
+    }
+    res.status(200).json({
+      success: true,
+      msg: "Note deleted successfully.",
+      note: deletedNote
+    });
+  }
+  catch(err){
+    res.status(500).json({msg : "Server error",error : err.message});
+  }
+}
 
-module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById , UpdateById , UpdateFieldId}; 
+
+module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById , UpdateById , UpdateFieldId , deleteById}; 

@@ -8,7 +8,8 @@ const {
   getAllNotes ,
   getNotesById,
   UpdateById ,
-  UpdateFieldId
+  UpdateFieldId , 
+  deleteById , 
   
  
 } = require('../controllers/note.controller.js');
@@ -19,6 +20,8 @@ router.get('/notes', getAllNotes);
 router.get('/notes/:id', getNotesById);
 router.put('/:id',UpdateById);
 router.put('/:id',UpdateFieldId);
+router.delete('/:id', deleteById);
+
 
 
 
