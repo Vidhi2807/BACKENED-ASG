@@ -36,8 +36,22 @@ const multipleNotes = async (req,res) =>{
   }
 }
 
+////get all notes
+const getAllNotes = async (req,res)=>{
+  try{
+     const notes = await Note.find();
+     res.status(200).json({
+         success: true,
+         msg: 'Notes retrieved successfully.',
+         notes: notes
+     });
+  }
+  catch(err){
+      res.status(500).json({ msg: 'Server error.', error: err.message });
+  }
+}
 
 
 
 
-module.exports = { createNote , multipleNotes };
+module.exports = { createNote , multipleNotes ,getAllNotes}; 
