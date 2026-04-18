@@ -10,6 +10,7 @@ const {
   UpdateById ,
   UpdateFieldId , 
   deleteById , 
+  deleteMulti
   
  
 } = require('../controllers/note.controller.js');
@@ -21,6 +22,7 @@ router.get('/notes/:id', getNotesById);
 router.put('/:id',UpdateById);
 router.put('/:id',UpdateFieldId);
 router.delete('/:id', deleteById);
+router.delete('/delete-multiple', deleteMulti);
 
 
 
