@@ -90,6 +90,24 @@ const UpdateById = async (req,res) =>{
   }
 }
 
+////Update specific fields only
+const UpdateFieldId = async (req,res) =>{
+  try{
+     const noteId = req.params.id;
+     const note = await Note.findByIdAndUpdate(noteId, req.body, {new:true}) ;
+     if(!note){
+        return res.status(404).json({msg: "Note Not found"});
+     }
+     res.status(200).json({
+      success: true,
+        msg: "Note retrieved successfully.",
+        note: note
+     });
+  }
+  catch(err){
+        res.status(500).json({msg : "Server error",error:err.message});
+  }
+}
 
 
-module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById , UpdateById}; 
+module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById , UpdateById , UpdateFieldId}; 

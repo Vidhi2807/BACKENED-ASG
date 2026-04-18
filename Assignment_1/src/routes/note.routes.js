@@ -7,7 +7,8 @@ const {
   multipleNotes,
   getAllNotes ,
   getNotesById,
-  UpdateById
+  UpdateById ,
+  UpdateFieldId
   
  
 } = require('../controllers/note.controller.js');
@@ -17,6 +18,7 @@ router.post('/multiple', multipleNotes);
 router.get('/notes', getAllNotes);
 router.get('/notes/:id', getNotesById);
 router.put('/:id',UpdateById);
+router.put('/:id',UpdateFieldId);
 
 
 
