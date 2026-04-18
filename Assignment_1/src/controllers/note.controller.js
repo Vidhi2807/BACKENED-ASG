@@ -51,7 +51,24 @@ const getAllNotes = async (req,res)=>{
   }
 }
 
+////get notes by id
+const getNotesById = async (req,res)=>{
+  try{
+      const noteId = req.params.id;
+      const note = await Note.findById(noteId);
+      if(!note){
+         return res.status(404).json({msg:"Note not found"});
+      }
+      res.status(200).json({
+        success: true,
+        msg:"Note retrieved successfully.",
+        note: note
+      })
+  }
+  catch(err){
+      res.status(500).json({msg : "Server error",error: err.message});
+  }
+}
 
 
-
-module.exports = { createNote , multipleNotes ,getAllNotes}; 
+module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById}; 
