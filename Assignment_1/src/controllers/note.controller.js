@@ -1,6 +1,5 @@
 const Note = require('../models/note.model.js');
 
-
 //// Create a new note
 const createNote = async (req, res) => {
   try {
@@ -11,7 +10,7 @@ const createNote = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      msg:  'Note created successfully.',
+      msg: 'Note created successfully.',
       note: newNote,
     });
 
@@ -20,119 +19,139 @@ const createNote = async (req, res) => {
   }
 };
 
-////Create multiple notes
-const multipleNotes = async (req,res) =>{
-  try{
-      const notesData = req.body;
-      const createdNotes = await Note.insertMany(notesData);
-      res.status(201).json({
-        success: true,
-          msg: 'Multiple notes created successfully.',
-          notes: createdNotes
-      }); 
-  }
-  catch(err){
-      res.status(500).json({ msg: 'Server error.', error: err.message });
-  }
-}
+//// Create multiple notes
+const multipleNotes = async (req, res) => {
+  try {
+    const notesData = req.body;
+    const createdNotes = await Note.insertMany(notesData);
 
-////get all notes
-const getAllNotes = async (req,res)=>{
-  try{
-     const notes = await Note.find();
-     res.status(200).json({
-         success: true,
-         msg: 'Notes retrieved successfully.',
-         notes: notes
-     });
-  }
-  catch(err){
-      res.status(500).json({ msg: 'Server error.', error: err.message });
-  }
-}
-
-////get notes by id
-const getNotesById = async (req,res)=>{
-  try{
-      const noteId = req.params.id;
-      const note = await Note.findById(noteId);
-      if(!note){
-         return res.status(404).json({msg:"Note not found"});
-      }
-      res.status(200).json({
-        success: true,
-        msg:"Note retrieved successfully.",
-        note: note
-      })
-  }
-  catch(err){
-      res.status(500).json({msg : "Server error",error: err.message});
-  }
-}
-
-////update note by id
-const UpdateById = async (req,res) =>{
-  try{
-      const noteId = req.params.id;
-      const {title,content,category} = req.body;
-      const updatedNote = await Note.findByIdAndUpdate(noteId,{title,content,category},{new:true,overwrite : true});
-      if(!updatedNote){
-        return res.status(404).json({msg: "Note Not found"});
-      }
-      res.status(200).json({
-        success: true,
-        msg:"Note updated successfully.",
-        note:updatedNote,
-      })
-  }
-  catch(err){
-      res.status(500).json({msg : "Server error",error:err.message});
-  }
-}
-
-////Update specific fields only
-const UpdateFieldId = async (req,res) =>{
-  try{
-     const noteId = req.params.id;
-     const note = await Note.findByIdAndUpdate(noteId, req.body, {new:true}) ;
-     if(!note){
-        return res.status(404).json({msg: "Note Not found"});
-     }
-     res.status(200).json({
+    res.status(201).json({
       success: true,
-        msg: "Note retrieved successfully.",
-        note: note
-     });
-  }
-  catch(err){
-        res.status(500).json({msg : "Server error",error:err.message});
-  }
-}
+      msg: 'Multiple notes created successfully.',
+      notes: createdNotes
+    });
 
-////Delete note by id
-const deleteById = async (req,res) =>{
-  try{
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.', error: err.message });
+  }
+};
+
+//// Get all notes
+const getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find();
+
+    res.status(200).json({
+      success: true,
+      msg: 'Notes retrieved successfully.',
+      notes: notes
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.', error: err.message });
+  }
+};
+
+//// Get note by ID
+const getNotesById = async (req, res) => {
+  try {
     const noteId = req.params.id;
-    const deletedNote = await Note.findByIdAndDelete(noteId);
-    if(!deletedNote){
-      return res.status(404).json({msg:"Note Not found"});
+    const note = await Note.findById(noteId);
+
+    if (!note) {
+      return res.status(404).json({ msg: "Note not found" });
     }
+
+    res.status(200).json({
+      success: true,
+      msg: "Note retrieved successfully.",
+      note: note
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+//// Update full note
+const UpdateById = async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    const { title, content, category } = req.body;
+
+    const updatedNote = await Note.findByIdAndUpdate(
+      noteId,
+      { title, content, category },
+      { new: true, overwrite: true }
+    );
+
+    if (!updatedNote) {
+      return res.status(404).json({ msg: "Note Not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "Note updated successfully.",
+      note: updatedNote,
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+//// Update specific fields
+const UpdateFieldId = async (req, res) => {
+  try {
+    const noteId = req.params.id;
+
+    const note = await Note.findByIdAndUpdate(
+      noteId,
+      req.body,
+      { new: true }
+    );
+
+    if (!note) {
+      return res.status(404).json({ msg: "Note Not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "Note updated successfully.",
+      note: note
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+//// Delete note by ID
+const deleteById = async (req, res) => {
+  try {
+    const noteId = req.params.id;
+
+    const deletedNote = await Note.findByIdAndDelete(noteId);
+
+    if (!deletedNote) {
+      return res.status(404).json({ msg: "Note Not found" });
+    }
+
     res.status(200).json({
       success: true,
       msg: "Note deleted successfully.",
       note: deletedNote
     });
-  }
-  catch(err){
-    res.status(500).json({msg : "Server error",error : err.message});
-  }
-}
 
+  } catch (err) {
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
 
-////delete multiple notes by ids
+//// Delete multiple notes
 const deleteMulti = async (req, res) => {
   try {
-    const noteIds = req.body; 
+    const noteIds = req.body;
 
     if (!noteIds || noteIds.length === 0) {
       return res.status(400).json({
@@ -157,7 +176,14 @@ const deleteMulti = async (req, res) => {
     });
   }
 };
-  
 
-
-module.exports = { createNote , multipleNotes ,getAllNotes, getNotesById , UpdateById , UpdateFieldId , deleteById, deleteMulti}; 
+module.exports = {
+  createNote,
+  multipleNotes,
+  getAllNotes,
+  getNotesById,
+  UpdateById,
+  UpdateFieldId,
+  deleteById,
+  deleteMulti
+};

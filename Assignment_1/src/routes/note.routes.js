@@ -1,30 +1,31 @@
-
 const express = require('express');
 const router = express.Router();
 
 const {
   createNote,
   multipleNotes,
-  getAllNotes ,
+  getAllNotes,
   getNotesById,
-  UpdateById ,
-  UpdateFieldId , 
-  deleteById , 
+  UpdateById,
+  UpdateFieldId,
+  deleteById,
   deleteMulti
-  
- 
 } = require('../controllers/note.controller.js');
 
+// CREATE
 router.post('/notes', createNote);
 router.post('/multiple', multipleNotes);
-router.get('/notes', getAllNotes);
+
+// READ
+router.get('/', getAllNotes);              // ✅ FIXED
 router.get('/notes/:id', getNotesById);
-router.put('/:id',UpdateById);
-router.put('/:id',UpdateFieldId);
+
+// UPDATE
+router.put('/:id', UpdateById);            // Full update
+router.patch('/:id', UpdateFieldId);       // Partial update ✅ FIXED
+
+// DELETE
+router.delete('/delete-multiple', deleteMulti); // ✅ FIXED ORDER
 router.delete('/:id', deleteById);
-router.delete('/delete-multiple', deleteMulti);
-
-
-
 
 module.exports = router;
